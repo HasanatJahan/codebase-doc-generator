@@ -2,6 +2,7 @@
 
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
+import { response } from 'express';
 // TODO: to be removed added the dotenv - to be removed later  
 // const dotenv = require("dotenv");
 dotenv.config()
@@ -39,12 +40,9 @@ function extractRepoInfo(githubURL) {
 
 //  Index the github repo URL 
 async function indexRepo(repoUrl) {
-    // Get the user/repoName
-    const userSlashRepoName = extractRepoInfo(repoUrl);
-
     const payload = {
         remote: "github",
-        repository: userSlashRepoName
+        repository: repoUrl
     };
 
     try {
@@ -65,9 +63,41 @@ async function indexRepo(repoUrl) {
         }
 
         console.log('Repository successfully indexed: ', data);
+        return data;
     }
     catch (error) {
         console.log("Error indexing respository:", error.message);
+    }
+}
+
+// Check respository indexing process 
+async function checkIndexingProcess(repoURL) {
+    const initialRepoURL = "github:main:" + repoURL;
+    const repositoryIdentifier = encodeURIComponent(initialRepoURL);
+    const finalRepoURL = BASE_URL + "/" + repositoryIdentifier;
+    console.log(finalRepoURL);
+    try {
+        const response = await fetch(finalRepoURL, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${GREPTILE_API_KEY}`,
+                'X-Github-Token': GITHUB_TOKEN
+            }
+        });
+
+        // check for non-200 status code 
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to fetch repository status: ${errorText}`)
+        }
+
+        // Parse JSON response 
+        const data = await response.json();
+        console.log("Repository status: ", data);
+        return data;
+    }
+    catch (error) {
+        console.log("Error checking repository status: ", error.message);
     }
 }
 
@@ -86,9 +116,14 @@ async function main() {
     }
 
     try {
-        const response = await indexRepo(repoUrl);
-        // console.log(`Repository indexed successfully: ${repoUrl}`);
-        console.log(response);
+        // Get the user/repoName
+        const userSlashRepoName = extractRepoInfo(repoUrl);
+        const response = await indexRepo(userSlashRepoName);
+
+        if (response) {
+            const indexingProcessStatus = checkIndexingProcess(userSlashRepoName);
+            console.log(indexingProcessStatus);
+        }
     }
     catch (error) {
         console.log('Error processing repository: ', error.message);
