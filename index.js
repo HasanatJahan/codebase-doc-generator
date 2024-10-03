@@ -94,13 +94,12 @@ async function checkIndexingProcess(repoURL) {
         // Parse JSON response 
         const data = await response.json();
         console.log("Repository status: ", data);
-        return data;
+        return data.status;
     }
     catch (error) {
         console.log("Error checking repository status: ", error.message);
     }
 }
-
 
 // Main function to handle CLI input
 async function main() {
@@ -122,7 +121,7 @@ async function main() {
 
         if (response) {
             const indexingProcessStatus = checkIndexingProcess(userSlashRepoName);
-            console.log(indexingProcessStatus);
+            // if we get a response that the process is complete then we can query the repository 
         }
     }
     catch (error) {
