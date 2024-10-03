@@ -1,16 +1,31 @@
 {
   "name": "Documentation_Generator",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
+  "bin": {
+    "docgen": "./index.js"
+  },
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Hasanat Jahan",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
-    "express": "^4.21.0"
-  }
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HasanatJahan/codebase-doc-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HasanatJahan/codebase-doc-generator/issues"
+  },
+  "homepage": "https://github.com/HasanatJahan/codebase-doc-generator#readme",
+  "description": "Automated Codebase Documentation Generator"
 }
