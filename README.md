@@ -3,7 +3,7 @@
 ## Description
 Documentation Generator is an automated tool designed to simplify the process of creating documentation for codebases. It leverages the power of GitHub and Greptile APIs to index repositories, generate README files, and streamline the documentation workflow.
 
-### Note from Author: This documentation itself was generated using this repo! 
+### Note from Author: This documentation itself was generated using this repo!
 
 ## Features
 - Automatic repository indexing
@@ -13,7 +13,6 @@ Documentation Generator is an automated tool designed to simplify the process of
 
 ## Installation
 1. Clone the repository:
-
    ```
    git clone https://github.com/hasanatjahan/codebase-doc-generator.git
    ```
@@ -29,14 +28,13 @@ Documentation Generator is an automated tool designed to simplify the process of
 ## Configuration
 1. Create a `.env` file in the root directory.
 2. Add the following environment variables:
-
    ```
    GITHUB_TOKEN=your_github_token
    GREPTILE_API_KEY=your_greptile_api_key
    ```
 
 ## Usage
-Run the tool using the following command:
+Run the tool using one of the following commands:
 ```
 npm start <github_repository_url>
 ```
@@ -45,10 +43,15 @@ or
 node index.js <github_repository_url>
 ```
 
+You can also provide the repository URL in your `.env` file:
+```
+REPO_URL=your_github_repository_url
+```
+
 ## Dependencies
-- dotenv
-- node-fetch
-- uuid
+- dotenv: ^16.4.5
+- node-fetch: ^3.3.2
+- uuid: ^10.0.0
 
 ## Scripts
 - `npm start`: Run the application
@@ -74,4 +77,3 @@ ChatGPT was a helping hand for this tool
 ## Links
 - [Report Bug](https://github.com/hasanatjahan/codebase-doc-generator/issues)
 - [Request Feature](https://github.com/hasanatjahan/codebase-doc-generator/issues)
-
