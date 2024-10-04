@@ -222,18 +222,14 @@ async function main() {
         // Index the repository - commented out to test github functionality 
         const response = await indexRepo(userSlashRepoName);
 
-        if (response) {
-            // Poll until the indexing process is complete 
-            const indexingCompleted = await pollIndexingProcess(userSlashRepoName);
+        // Poll until the indexing process is complete 
+        const indexingCompleted = await pollIndexingProcess(userSlashRepoName);
 
-            // If indexing is complete, generate the README 
-            if (indexingCompleted) {
-                const readmeData = await queryGenerateReadme(userSlashRepoName);
-                console.log("Generated README content: ", readmeData);
-            }
-        }
+        // If indexing is complete, generate the README 
+        const readmeData = await queryGenerateReadme(userSlashRepoName);
+        console.log("Generated README content: - get the message", readmeData.message);
 
-        const createReadmeRequest = createBranchAndStageReadme(userSlashRepoName);
+        const createReadmeRequest = await createBranchAndStageReadme(userSlashRepoName, "main", readmeData.message);
 
     }
     catch (error) {
