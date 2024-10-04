@@ -1,42 +1,74 @@
+```markdown
 # Documentation Generator
 
-This project is a Documentation Generator application.
-
 ## Description
+Documentation Generator is an automated tool designed to simplify the process of creating documentation for codebases. It leverages the power of GitHub and Greptile APIs to index repositories, generate README files, and streamline the documentation workflow.
 
-The Documentation Generator is a Node.js application designed to automate the process of generating documentation for codebases.
+## Features
+- Automatic repository indexing
+- README generation using AI-powered content creation
+- GitHub integration for branch creation and file management
+- Command-line interface for easy usage
 
 ## Installation
+1. Clone the repository:
+   ```
+   git clone https://github.com/hasanatjahan/codebase-doc-generator.git
+   ```
+2. Navigate to the project directory:
+   ```
+   cd codebase-doc-generator
+   ```
+3. Install dependencies:
+   ```
+   npm install
+   ```
 
-To set up this project, follow these steps:
+## Configuration
+1. Create a `.env` file in the root directory.
+2. Add the following environment variables:
+   ```
+   GITHUB_TOKEN=your_github_token
+   GREPTILE_API_KEY=your_greptile_api_key
+   ```
 
-1. Clone the repository
-2. Navigate to the project directory
-3. Run `npm install` to install the dependencies
+## Usage
+Run the tool using the following command:
+```
+npm start <github_repository_url>
+```
+or
+```
+node index.js <github_repository_url>
+```
 
 ## Dependencies
-
-This project relies on the following npm packages:
-
-- axios: ^1.7.7
-- express: ^4.21.0
+- dotenv
+- node-fetch
+- uuid
 
 ## Scripts
+- `npm start`: Run the application
 
-Currently, there are no custom scripts defined in the project. The default test script is:
-
-```
-"test": "echo \"Error: no test specified\" && exit 1"
-```
-
-## License
-
-This project is licensed under the ISC License.
+## How It Works
+1. The tool extracts repository information from the provided GitHub URL.
+2. It indexes the repository using the Greptile API.
+3. The indexing process is monitored until completion.
+4. A README is generated using AI-powered content creation.
+5. A new branch is created in the GitHub repository.
+6. The generated README is staged in the new branch for review.
 
 ## Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-As this is a basic setup, contribution guidelines have not been established yet. Feel free to fork the repository and submit pull requests for any improvements.
+## License
+This project is licensed under the ISC License.
 
 ## Author
+Hasanat Jahan
 
-The author information for this project is not specified in the current configuration.
+## Links
+- [Report Bug](https://github.com/hasanatjahan/codebase-doc-generator/issues)
+- [Request Feature](https://github.com/hasanatjahan/codebase-doc-generator/issues)
+
+```
