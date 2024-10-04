@@ -3,6 +3,7 @@
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 import { response } from 'express';
+import { v4 as uuidv4 } from "uuid";
 // TODO: to be removed added the dotenv - to be removed later  
 // const dotenv = require("dotenv");
 dotenv.config()
@@ -12,6 +13,10 @@ const GREPTILE_API_KEY = process.env.GREPTILE_API_KEY;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const BASE_URL = "https://api.greptile.com/v2/repositories";
 const STANDARD_GITHUB_URL = "github.com";
+const QUERY_URL = "https://api.greptile.com/v2/query";
+
+// Prompts 
+const README_QUERY = "Can you generate a README for this repository?";
 
 //  Extract the repo information from the input on the command line 
 function extractRepoInfo(githubURL) {
@@ -85,14 +90,15 @@ async function checkIndexingProcess(repoURL) {
             }
         });
 
+        // Parse JSON response 
+        const data = await response.json();
+
         // check for non-200 status code 
         if (!response.ok) {
             const errorText = await response.text();
             throw new Error(`Failed to fetch repository status: ${errorText}`)
         }
 
-        // Parse JSON response 
-        const data = await response.json();
         console.log("Repository status: ", data);
         return data.status;
     }
@@ -100,6 +106,97 @@ async function checkIndexingProcess(repoURL) {
         console.log("Error checking repository status: ", error.message);
     }
 }
+
+// Poll the result for the indexing process 
+async function pollIndexingProcess(repoUrl, interval = 5000) {
+    let statusResponse = await checkIndexingProcess(repoUrl);
+    // destructure the status and sha fields
+    let { status, sha } = statusResponse;
+    const submitted_case = "submitted";
+    const processing_case = "processing";
+    const cloning_case = "cloning";
+    const retryLimit = 3;
+    let retryCount = 0;
+
+    while (status !== 'completed' || !sha) {
+        switch (status) {
+            case submitted_case:
+                console.log("Indexing job is in queue. Waiting for the process to start...");
+                break;
+            case cloning_case:
+                console.log("Repository is being cloned. Please wait...");
+                break;
+            case processing_case:
+                console.log("Indexing is in process. Please wait, this may take some time...");
+                break;
+            default:
+                console.log(`Unknown status: ${status}. Retrying...`);
+                retryCount++;
+                if (retryCount === retryLimit) {
+                    console.log("Could not index repository :(");
+                    return false;
+                }
+        }
+
+        // Wait an interval before trying agian 
+        await new Promise(resolve => setTimeout(resolve, interval));
+
+        // Check indexing status againn
+        statusResponse = await checkIndexingProcess(repoUrl);
+        status = statusResponse.status;
+        sha = statusResponse.sha;
+    }
+    console.log("Indexing completed! Repository will now be queried!")
+    return true;
+}
+
+
+// Function to query the repository for README
+async function queryGenerateReadme(userSlashRepoName, branch = "main") {
+    const payload = {
+        "messages": [
+            {
+                "id": uuidv4(), // unique id for message
+                "content": README_QUERY,
+                "role": "user"
+            }
+        ],
+        "repositories": [
+            {
+                "remote": "github",
+                "repository": userSlashRepoName,
+                "branch": branch
+            }
+        ],
+        "sessionId": uuidv4(),
+    };
+
+    try {
+        const response = await fetch(QUERY_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${GREPTILE_API_KEY}`,
+                'X-Github-Token': GITHUB_TOKEN,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (!response.ok) {
+            throw new Error(`Error querying repository: ${data.message || response.statusText}`);
+        }
+
+        // Here we would call another function to get the data and generate it to a file 
+        console.log("README generated: " + data);
+        return data;
+    } catch (error) {
+        console.log("Error querying repository for README generation: ", error.message);
+    }
+}
+
 
 // Main function to handle CLI input
 async function main() {
@@ -117,11 +214,19 @@ async function main() {
     try {
         // Get the user/repoName
         const userSlashRepoName = extractRepoInfo(repoUrl);
+
+        // Index the repository
         const response = await indexRepo(userSlashRepoName);
 
         if (response) {
-            const indexingProcessStatus = checkIndexingProcess(userSlashRepoName);
-            // if we get a response that the process is complete then we can query the repository 
+            // Poll until the indexing process is complete 
+            const indexingCompleted = await pollIndexingProcess(userSlashRepoName);
+
+            // If indexing is complete, generate the README 
+            if (indexingCompleted) {
+                const readmeData = await queryGenerateReadme(userSlashRepoName);
+                console.log("Generated README content: ", readmeData);
+            }
         }
     }
     catch (error) {
