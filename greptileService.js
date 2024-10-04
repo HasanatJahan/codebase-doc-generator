@@ -11,7 +11,7 @@ const BASE_URL = "https://api.greptile.com/v2/repositories";
 const QUERY_URL = "https://api.greptile.com/v2/query";
 
 // Prompts 
-const README_QUERY = "Generate a README for this repository, please write it in markdown and only share exactly the README and nothing else in your response";
+const README_QUERY = "Generate a README for this repository, please write it in markdown and only share exactly the README and nothing else in your response. ONLY share markdown text";
 
 //  Index the github repo URL 
 async function indexRepo(repoUrl) {
