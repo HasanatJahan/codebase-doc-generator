@@ -30,7 +30,6 @@ async function getLatestCommitSha(githubApiBase, branch) {
     }
 
     const latestCommitSha = data.object.sha;
-    console.log("Latest commit sha on the main branch ", latestCommitSha);
     return latestCommitSha;
 }
 
@@ -118,19 +117,14 @@ async function createOrUpdateReadme(githubApiBase, newBranchName, filePath, gene
     }
 
     const linkToReadme = `https://github.com/${githubApiBase.split('/repos/')[1]}/edit/${newBranchName}/${filePath}`;
-    console.log("This is the link generated to read me: /n" + linkToReadme);
     return linkToReadme;
 }
 
 
 // overall function called from index.js 
 async function createBranchAndStageReadme(userSlashRepoName, branch = "main", generatedReadmeContent) {
-    console.log("this is generatedreadme " + generatedReadmeContent);
-
     const filepath = "README.md";
     const githubApiBase = GITHUB_API_BASE + userSlashRepoName;
-
-    console.log(" This is how we see generated readme content in the create branch function " + generatedReadmeContent);
 
     // Get the latest commit SHA for the main branch
     try {
@@ -139,8 +133,6 @@ async function createBranchAndStageReadme(userSlashRepoName, branch = "main", ge
         //  create a new branch with latest commit sha 
         const branchDateName = `readme-update-${Date.now()}`;
         const newBranchName = await createNewBranch(githubApiBase, branchDateName, latestCommitSha);
-        console.log("This is new branch name " + newBranchName);
-
 
         // Get the sha of the current README.md if exists 
         const readmeFileSha = await getReadmeSha(githubApiBase, newBranchName, filepath);
@@ -149,7 +141,7 @@ async function createBranchAndStageReadme(userSlashRepoName, branch = "main", ge
         const githubUrl = await createOrUpdateReadme(githubApiBase, newBranchName, filepath, generatedReadmeContent, readmeFileSha);
 
         //  Output to user to paste into browser 
-        console.log(`View and edit the README here: ${githubUrl}`);
+        console.log(`Your README has been successfully generated!\nView and edit the README here:\n ${githubUrl}`);
         return githubUrl;
 
     } catch (error) {

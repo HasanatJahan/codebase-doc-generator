@@ -115,7 +115,6 @@ async function pollIndexingProcess(repoUrl, interval = 5000) {
     let statusResponse = await checkIndexingProcess(repoUrl);
     // destructure the status and sha fields
     let { status, sha } = statusResponse;
-    console.log("We are able to see status ", status);
     const submitted_case = "submitted";
     const processing_case = "processing";
     const cloning_case = "cloning";
@@ -187,14 +186,11 @@ async function queryGenerateReadme(userSlashRepoName, branch = "main") {
         });
 
         const data = await response.json();
-        console.log(data);
 
         if (!response.ok) {
             throw new Error(`Error querying repository: ${data.message || response.statusText}`);
         }
 
-        // Here we would call another function to get the data and generate it to a file 
-        console.log("README generated: " + data);
         return data;
     } catch (error) {
         console.log("Error querying repository for README generation: ", error.message);
@@ -227,7 +223,6 @@ async function main() {
 
         // If indexing is complete, generate the README 
         const readmeData = await queryGenerateReadme(userSlashRepoName);
-        console.log("Generated README content: - get the message", readmeData.message);
 
         const createReadmeRequest = await createBranchAndStageReadme(userSlashRepoName, "main", readmeData.message);
 
