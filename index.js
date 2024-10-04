@@ -201,13 +201,10 @@ async function queryGenerateReadme(userSlashRepoName, branch = "main") {
 // Main function to handle CLI input
 async function main() {
     // URL passed as an argument
-    // const repoUrl = process.argv[2];
-
-    // leaving now for testing purposes 
-    const repoUrl = "https://github.com/HasanatJahan/codebase-doc-generator";
+    const repoUrl = process.env.REPO_URL || process.argv[2];
 
     if (!repoUrl) {
-        console.log("Error: Please provide a repository url");
+        console.log("Error: Please provide a repository url either in your .env file assigned to REPO_URL or enter here on the command line");
         process.exit(1);
     }
 
@@ -215,7 +212,7 @@ async function main() {
         // Get the user/repoName
         const userSlashRepoName = extractRepoInfo(repoUrl);
 
-        // Index the repository - commented out to test github functionality 
+        // Index the repository 
         const response = await indexRepo(userSlashRepoName);
 
         // Poll until the indexing process is complete 
