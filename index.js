@@ -100,7 +100,7 @@ async function checkIndexingProcess(repoURL) {
         }
 
         console.log("Repository status: ", data);
-        return data.status;
+        return data;
     }
     catch (error) {
         console.log("Error checking repository status: ", error.message);
@@ -112,6 +112,7 @@ async function pollIndexingProcess(repoUrl, interval = 5000) {
     let statusResponse = await checkIndexingProcess(repoUrl);
     // destructure the status and sha fields
     let { status, sha } = statusResponse;
+    console.log("We are able to see status ", status);
     const submitted_case = "submitted";
     const processing_case = "processing";
     const cloning_case = "cloning";
