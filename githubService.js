@@ -141,7 +141,7 @@ async function createBranchAndStageReadme(userSlashRepoName, branch = "main", ge
         const githubUrl = await createOrUpdateReadme(githubApiBase, newBranchName, filepath, generatedReadmeContent, readmeFileSha);
 
         //  Output to user to paste into browser 
-        console.log(`Your README has been successfully generated!\nView and edit the README here:\n ${githubUrl}`);
+        console.log(`Your README has been successfully generated!\nView and edit the README here:\n\n ${githubUrl} \n`);
         return githubUrl;
 
     } catch (error) {
