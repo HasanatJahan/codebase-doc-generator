@@ -2,8 +2,11 @@
 
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
-import { response } from 'express';
 import { v4 as uuidv4 } from "uuid";
+
+// Import functions 
+import createBranchAndStageReadme from './githubService.js';
+
 // TODO: to be removed added the dotenv - to be removed later  
 // const dotenv = require("dotenv");
 dotenv.config()
@@ -216,7 +219,7 @@ async function main() {
         // Get the user/repoName
         const userSlashRepoName = extractRepoInfo(repoUrl);
 
-        // Index the repository
+        // Index the repository - commented out to test github functionality 
         const response = await indexRepo(userSlashRepoName);
 
         if (response) {
@@ -229,6 +232,9 @@ async function main() {
                 console.log("Generated README content: ", readmeData);
             }
         }
+
+        const createReadmeRequest = createBranchAndStageReadme(userSlashRepoName);
+
     }
     catch (error) {
         console.log('Error processing repository: ', error.message);
