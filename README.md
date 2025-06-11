@@ -72,6 +72,7 @@ Hasanat Jahan
 ChatGPT was a helping hand for this tool
 
 ## Links
+- [Link to Demo on Youtube](https://youtu.be/0b0TMPIEo2M)
 - [Report Bug](https://github.com/hasanatjahan/codebase-doc-generator/issues)
 - [Request Feature](https://github.com/hasanatjahan/codebase-doc-generator/issues)
 
