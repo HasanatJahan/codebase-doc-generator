@@ -1,78 +1,87 @@
-# Documentation Generator
+# Codebase Documentation Generator
 
-## Description
-Documentation Generator is an automated tool designed to simplify the process of creating documentation for codebases. It leverages the power of GitHub and Greptile APIs to index repositories, generate README files, and streamline the documentation workflow.
-
-### Note from Author: This documentation itself was generated using this repo! 
+An automated tool for generating comprehensive documentation for your codebase using AI-powered analysis.
 
 ## Features
-- Automatic repository indexing
-- README generation using AI-powered content creation
-- GitHub integration for branch creation and file management
-- Command-line interface for easy usage
+
+- Automatic repository indexing and analysis
+- AI-powered README generation
+- GitHub integration for branch management
+- Command-line interface for easy use
+- Automated branch creation for documentation updates
+- Smart documentation staging process
+
+## Prerequisites
+
+- Node.js
+- GitHub account
+- Greptile API key
+- GitHub personal access token
 
 ## Installation
-1. Clone the repository:
 
-   ```
-   git clone https://github.com/hasanatjahan/codebase-doc-generator.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd codebase-doc-generator
-   ```
-3. Install dependencies:
-   ```
-   npm install
-   ```
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
+```
 
 ## Configuration
-1. Create a `.env` file in the root directory.
-2. Add the following environment variables:
 
-   ```
-   GITHUB_TOKEN=your_github_token
-   GREPTILE_API_KEY=your_greptile_api_key
-   ```
+Create a `.env` file in the root directory with the following variables:
+
+```env
+GREPTILE_API_KEY=your_greptile_api_key
+GITHUB_TOKEN=your_github_token
+REPO_URL=optional_default_repository_url
+```
 
 ## Usage
-Run the tool using the following command:
-```
-npm start <github_repository_url>
-```
-or
-```
-node index.js <github_repository_url>
+
+Run the tool using either:
+
+```bash
+npm start
 ```
 
+or
+
+```bash
+node index.js <github-repository-url>
+```
+
+Example:
+```bash
+node index.js https://github.com/username/repository
+```
+
+## How It Works
+
+1. The tool indexes your repository using Greptile's API
+2. Analyzes the codebase structure and content
+3. Generates a comprehensive README using AI
+4. Creates a new branch with timestamp
+5. Stages the generated README for review
+6. Provides a direct link to edit and review the changes
+
 ## Dependencies
+
 - dotenv
 - node-fetch
 - uuid
 
-## Scripts
-- `npm start`: Run the application
-
-## How It Works
-1. The tool extracts repository information from the provided GitHub URL.
-2. It indexes the repository using the Greptile API.
-3. The indexing process is monitored until completion.
-4. A README is generated using AI-powered content creation.
-5. A new branch is created in the GitHub repository.
-6. The generated README is staged in the new branch for review.
-
 ## Contributing
+
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-This project is licensed under the ISC License.
+
+ISC License
 
 ## Author
-Hasanat Jahan
-ChatGPT was a helping hand for this tool
 
-## Links
-- [Link to Demo on Youtube](https://youtu.be/0b0TMPIEo2M)
-- [Report Bug](https://github.com/hasanatjahan/codebase-doc-generator/issues)
-- [Request Feature](https://github.com/hasanatjahan/codebase-doc-generator/issues)
+Created by Hasanat Jahan
 
+---
+
+*Note: This tool uses Greptile's API for repository analysis and GitHub's API for version control operations. Make sure you have the necessary API keys and permissions before use.*
