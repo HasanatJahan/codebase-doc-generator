@@ -15,11 +15,19 @@ const README_QUERY = "Generate a README for this repository, please write it in 
 
 //  Index the github repo URL 
 async function indexRepo(repoUrl) {
+    // If repoUrl is a full URL, extract owner/repo
+    let repoName = repoUrl;
+    if (repoUrl.startsWith("https://github.com/")) {
+        repoName = repoUrl.replace("https://github.com/", "");
+    }
     const payload = {
         remote: "github",
-        repository: repoUrl
+        repository: repoName,
+        branch: "main",
+        reload: true,
+        notify: true
     };
-
+    console.log("Payload being sent to Greptile:", payload);
     try {
         const response = await fetch(`${BASE_URL}`, {
             method: 'POST',
