@@ -1,78 +1,93 @@
 # Documentation Generator
 
-## Description
-Documentation Generator is an automated tool designed to simplify the process of creating documentation for codebases. It leverages the power of GitHub and Greptile APIs to index repositories, generate README files, and streamline the documentation workflow.
-
-### Note from Author: This documentation itself was generated using this repo! 
+An automated tool that generates comprehensive documentation for your codebase using AI. This tool indexes your GitHub repository and creates intelligent README documentation, streamlining the documentation process for developers.
 
 ## Features
-- Automatic repository indexing
-- README generation using AI-powered content creation
-- GitHub integration for branch creation and file management
-- Command-line interface for easy usage
+
+- 🤖 Automated repository indexing
+- 📝 AI-powered README generation
+- 🔄 GitHub integration with branch management
+- 💻 Simple command-line interface
+- 🔑 Secure API integration
+
+## Prerequisites
+
+- Node.js installed on your system
+- GitHub account
+- API keys for required services
 
 ## Installation
-1. Clone the repository:
 
-   ```
-   git clone https://github.com/hasanatjahan/codebase-doc-generator.git
-   ```
-2. Navigate to the project directory:
-   ```
-   cd codebase-doc-generator
-   ```
-3. Install dependencies:
-   ```
-   npm install
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/HasanatJahan/codebase-doc-generator.git
+
+# Navigate to the project directory
+cd codebase-doc-generator
+
+# Install dependencies
+npm install
+```
 
 ## Configuration
-1. Create a `.env` file in the root directory.
-2. Add the following environment variables:
 
-   ```
-   GITHUB_TOKEN=your_github_token
-   GREPTILE_API_KEY=your_greptile_api_key
-   ```
+1. Create a `.env` file in the project root
+2. Add the following environment variables:
+```
+REPO_URL=your_repository_url (optional)
+GITHUB_TOKEN=your_github_token
+GREPTILE_API_KEY=your_greptile_api_key
+```
 
 ## Usage
-Run the tool using the following command:
-```
-npm start <github_repository_url>
-```
-or
-```
-node index.js <github_repository_url>
+
+You can run the tool in two ways:
+
+```bash
+# Using npm
+npm start <repository-url>
+
+# Using node directly
+node index.js <repository-url>
 ```
 
-## Dependencies
-- dotenv
-- node-fetch
-- uuid
-
-## Scripts
-- `npm start`: Run the application
+If you've configured the REPO_URL in your .env file, you can run the tool without arguments:
+```bash
+npm start
+```
 
 ## How It Works
-1. The tool extracts repository information from the provided GitHub URL.
-2. It indexes the repository using the Greptile API.
-3. The indexing process is monitored until completion.
-4. A README is generated using AI-powered content creation.
-5. A new branch is created in the GitHub repository.
-6. The generated README is staged in the new branch for review.
+
+1. Indexes your repository using Greptile API
+2. Analyzes the codebase structure
+3. Generates a comprehensive README using AI
+4. Creates a new branch in your repository
+5. Stages the generated README for review
+
+## Dependencies
+
+- dotenv: Environment variable management
+- node-fetch: HTTP requests handling
+- uuid: Unique identifier generation
+
+## Scripts
+
+- `npm start`: Runs the documentation generator
 
 ## Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-This project is licensed under the ISC License.
+Contributions are welcome! Feel free to submit pull requests or open issues for any bugs or feature requests.
 
 ## Author
+
 Hasanat Jahan
-ChatGPT was a helping hand for this tool
+
+## License
+
+This project is licensed under the ISC License.
 
 ## Links
-- [Link to Demo on Youtube](https://youtu.be/0b0TMPIEo2M)
-- [Report Bug](https://github.com/hasanatjahan/codebase-doc-generator/issues)
-- [Request Feature](https://github.com/hasanatjahan/codebase-doc-generator/issues)
 
+- [Report Bug](https://github.com/HasanatJahan/codebase-doc-generator/issues)
+- [Request Feature](https://github.com/HasanatJahan/codebase-doc-generator/issues)
+- [Homepage](https://github.com/HasanatJahan/codebase-doc-generator#readme)
